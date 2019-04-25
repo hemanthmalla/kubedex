@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: publisher
+  namespace: firedex
+spec:
+  containers:
+  - name: firedex
+    image: hemanthmalla/firedex:latest
+    # TODO : Only for local testing
+    imagePullPolicy: Never
+    env:
+    - name: ROLE
+      value: producer
+    volumeMounts:
+    - mountPath: /var/logs/publisher
+      name: logs
+  volumes:
+  - name: logs
+    hostPath:
+      # directory location on host
+      path: /home/docker/data/publisher
+      type: Directory

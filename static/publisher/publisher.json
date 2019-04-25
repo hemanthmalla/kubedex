@@ -1,29 +1,73 @@
 {
-
-	"broker": {
-		"host": "iqueue.ics.uci.edu",
-		"port": 1883
-	},
-	
-	"publisher": {
-		"identifier": "publisher",
-		"host": "10.0.0.2",
-		"runningTime": 30,
-		"publications": [
-			{
-				"topic": "smoke",
-				"rateType": "deterministic",
-				"rate": 10,
-				"messageSize": 100,
-				"qualityOfService": 0,
-				"retained": false
-			}
-		]
-	},
-	
-	"output": {
-		"logFile": "publisher_log.log",
-		"outputFile": "publisher_output.json"
-	}
-	
+    "publisher": {
+        "runningTime": 10,
+        "host": "127.0.0.1",
+        "identifier": "pub0", 
+        "publications": [
+            {
+                "retained": false, 
+                "qualityOfService": 0, 
+                "rateType": "random", 
+                "topic": "topic6", 
+                "messageSize": 51, 
+                "rate": 10
+            }, 
+            {
+                "retained": false, 
+                "qualityOfService": 0, 
+                "rateType": "random", 
+                "topic": "topic2", 
+                "messageSize": 51, 
+                "rate": 10
+            }, 
+            {
+                "retained": false, 
+                "qualityOfService": 0, 
+                "rateType": "random", 
+                "topic": "topic5", 
+                "messageSize": 51, 
+                "rate": 10
+            }, 
+            {
+                "retained": false, 
+                "qualityOfService": 0, 
+                "rateType": "random", 
+                "topic": "topic4", 
+                "messageSize": 51, 
+                "rate": 10
+            }, 
+            {
+                "retained": false, 
+                "qualityOfService": 0, 
+                "rateType": "random", 
+                "topic": "topic0", 
+                "messageSize": 51, 
+                "rate": 10
+            }, 
+            {
+                "retained": false, 
+                "qualityOfService": 0, 
+                "rateType": "random", 
+                "topic": "topic3", 
+                "messageSize": 51, 
+                "rate": 10
+            }, 
+            {
+                "retained": false, 
+                "qualityOfService": 0, 
+                "rateType": "random", 
+                "topic": "topic1", 
+                "messageSize": 51, 
+                "rate": 10
+            }
+        ]
+    }, 
+    "broker": {
+        "host": "broker.firedex",
+        "port": 1883
+    }, 
+    "output": {
+        "outputFile": "/var/log/publisher/output/pub0_output.json", 
+        "logFile": "/var/log/publisher/log/pub0_log.log"
+    }
 }

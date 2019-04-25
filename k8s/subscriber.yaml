@@ -1,0 +1,47 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: subscriber
+  namespace: firedex
+spec:
+  template:
+    metadata:
+      labels:
+        app: subscriber
+        version: v1
+        type: mqtt
+    spec:
+      containers:
+      - name: firedex
+        image: hemanthmalla/firedex:latest
+        # TODO : Only for local testing
+        imagePullPolicy: Never
+        env:
+        - name: ROLE
+          value: subscriber
+        volumeMounts:
+        - mountPath: /var/logs/subscriber
+          name: logs
+        ports:
+        - containerPort: 9999
+      restartPolicy: Always
+      volumes:
+      - name: logs
+        hostPath:
+          # directory location on host
+          path: /home/docker/data/subscriber
+          type: Directory
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: subscriber
+  namespace: firedex
+  labels:
+    app: subscriber
+spec:
+  ports:
+  - port: 9999
+    name: tcp
+  selector:
+    app: subscriber

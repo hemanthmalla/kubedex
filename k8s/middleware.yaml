@@ -1,0 +1,35 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: middleware
+  namespace: firedex
+spec:
+  template:
+    metadata:
+      labels:
+        app: middleware
+        version: v1
+        type: http-server
+    spec:
+      containers:
+      - name: firedex
+        image: hemanthmalla/firedex-middleware:latest
+        # TODO : Only for local testing
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8888
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: middleware
+  namespace: firedex
+  labels:
+    app: middleware
+spec:
+  ports:
+  - port: 8888
+    name: http
+  selector:
+    app: middleware

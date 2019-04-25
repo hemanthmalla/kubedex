@@ -1,0 +1,38 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: broker
+  namespace: firedex
+spec:
+  template:
+    metadata:
+      labels:
+        app: broker
+        version: v1
+        type: mqtt
+    spec:
+      containers:
+      - name: firedex
+        image: hemanthmalla/firedex:latest
+        # TODO : Only for local testing
+        imagePullPolicy: Never
+        env:
+        - name: ROLE
+          value: broker
+        ports:
+        - containerPort: 1883
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: broker
+  namespace: firedex
+  labels:
+    app: broker
+spec:
+  ports:
+  - port: 1883
+    name: tcp
+  selector:
+    app: broker

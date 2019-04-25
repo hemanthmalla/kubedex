@@ -1,58 +1,58 @@
 {
-	"server": {
-		"middleware": {
-			"host": "localhost",
-			"port": 8888
-		},
-		"broker": {
-			"host": "localhost",
-			"port": 20000
-		}
-	},
-	"subscriber": {
-		"identifier": "sub0",
-		"host": "10.0.0.2",
-		"runningTime": 40,
-		"subscriptions": [
-			{
-				"topic": "t0",
-				"time": 0,
-				"utilityFunction": 0.28759254905709963
-			},
-			{
-				"topic": "t2",
-				"time": 0,
-				"utilityFunction": 10.780155936073793
-			},
-			{
-				"topic": "t3",
-				"time": 0,
-				"utilityFunction": 2.571115903251602
-			},
-			{
-				"topic": "t1",
-				"time": 0,
-				"utilityFunction": 0.1695213268274483
-			},
-			{
-				"topic": "t5",
-				"time": 0,
-				"utilityFunction": 1.9870091247754542
-			},
-			{
-				"topic": "t6",
-				"time": 0,
-				"utilityFunction": 1.2946511936284513
-			},
-			{
-				"topic": "t4",
-				"time": 0,
-				"utilityFunction": 4.739246832494637
-			}
-		]
-	},
-	"output": {
-		"logFile": "sub0_log.log",
-		"outputFile": "sub0.json"
-	}
+    "subscriber": {
+        "runningTime": 10,
+        "host": "127.0.0.1",
+        "identifier": "sub0", 
+        "subscriptions": [
+            {
+                "topic": "topic1", 
+                "time": 0, 
+                "utilityFunction": 11.816508911402563
+            },
+            {
+                "topic": "topic2",
+                "time": 0,
+                "utilityFunction": 2.351559575428233
+            },
+            {
+                "topic": "topic3",
+                "time": 0,
+                "utilityFunction": 0.9381768719917427
+            },
+            {
+                "topic": "topic0",
+                "time": 0,
+                "utilityFunction": 6.290885571781397
+            },
+            {
+                "topic": "topic5",
+                "time": 0,
+                "utilityFunction": 1.7335981876140156
+            },
+            {
+                "topic": "topic4",
+                "time": 0,
+                "utilityFunction": 5.704643719884695
+            },
+            {
+                "topic": "topic6",
+                "time": 0,
+                "utilityFunction": 7.775900923310006
+            }
+        ]
+    }, 
+    "output": {
+        "outputFile": "/var/log/subscriber/output/sub0_output.json", 
+        "logFile": "/var/log/subscriber/log/sub0_log.log"
+    }, 
+    "server": {
+        "middleware": {
+            "host": "middleware.firedex",
+            "port": "8888"
+        }, 
+        "broker": {
+            "host": "gateway.firedex",
+            "port": 20000
+        }
+    }
 }

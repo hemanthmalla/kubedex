@@ -1,0 +1,39 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: gateway
+  namespace: firedex
+spec:
+  template:
+    metadata:
+      labels:
+        app: gateway
+        version: v1
+        type: mqtt
+    spec:
+      containers:
+      - name: firedex
+        image: hemanthmalla/firedex:latest
+        # TODO : Only for local testing
+        imagePullPolicy: Never
+        env:
+        - name: ROLE
+          value: gateway
+        ports:
+        - containerPort: 20000
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gateway
+  namespace: firedex
+  labels:
+    app: gateway
+spec:
+  ports:
+  - port: 20000
+    protocol: UDP
+    name: udp
+  selector:
+    app: gateway

@@ -7,6 +7,6 @@ COPY scripts/start_firedex.sh /opt/firedex/
 
 WORKDIR /opt/firedex
 
-EXPOSE 1883
+EXPOSE 1883 20000 9999
 
 CMD ["bash", "./start_firedex.sh"]
