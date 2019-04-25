@@ -1,0 +1,10 @@
+*.pyc
+*.jar
+target
+.settings
+.project
+.classpath
+.DS_Store
+build
+
+
