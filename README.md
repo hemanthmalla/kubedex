@@ -51,6 +51,7 @@ minikube ssh
 docker images
 mkdir -p /home/docker/data/publisher
 mkdir -p /home/docker/data/subscriber
+mkdir -p /home/docker/data/gateway
 exit
 ```
 
