@@ -19,8 +19,17 @@ spec:
         env:
         - name: ROLE
           value: gateway
+        volumeMounts:
+        - mountPath: /var/logs/gateway
+          name: logs
         ports:
         - containerPort: 20000
+      volumes:
+      - name: logs
+        hostPath:
+          # directory location on host
+          path: /home/docker/data/gateway
+          type: Directory
       restartPolicy: Always
 ---
 apiVersion: v1

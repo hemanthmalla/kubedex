@@ -24,6 +24,14 @@ eval $(minikube docker-env)
 
 Note : In order to make this work, we set image pull policy in Kubernetes manifests to never. This will force the usage of existing images.
 
+UDP Client package is currently not available on public maven repository. So, clone the project and add it to the local maven repository
+
+```
+mkdir libs && cd libs
+git clone https://github.com/hemanthmalla/eclipse-paho-mqtt-sn-udp-client.git
+mvn install
+cd ..
+```
 Maven package broker, gateway, publisher and subscriber components. Build a docker image from the artifacts generated.
 
 ```
@@ -36,11 +44,13 @@ Build docker image for the middleware.
 docker build -t <image_name> ./static/firedex-coordinator-service
 ```
 
-Additionally we can verify that the images are built into the VM.
+Additionally we can verify that the images are built into the VM. We also need to create log directory in minikube, which would be mounted into containers.
 
 ```
 minikube ssh
 docker images
+mkdir -p /home/docker/data/publisher
+mkdir -p /home/docker/data/subscriber
 exit
 ```
 

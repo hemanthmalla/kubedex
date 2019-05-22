@@ -18,16 +18,16 @@ JVM_OPTS="$JVM_OPTS -XX:HeapDumpPath=$FIREDEX_HEAP_DUMP_DIR/firedex-`date +%s`-p
 
 case $ROLE in
 "producer")
-  CMD="/opt/firedex/static/publisher-1.0.0.jar /opt/firedex/static/config/pub0.json"
+  CMD="/opt/firedex/static/publisher-1.0.0-jar-with-dependencies.jar edu.uci.ics.application.Application /opt/firedex/static/config/publisher.json"
   ;;
 "subscriber")
-  CMD="/opt/firedex/static/subscriber-1.0.0.jar /opt/firedex/static/config/subscriber.json"
+  CMD="/opt/firedex/static/subscriber-1.0.0-jar-with-dependencies.jar edu.uci.ics.application.Application /opt/firedex/static/config/subscriber.json"
   ;;
 "broker")
-  CMD="/opt/firedex/static/mqtt-broker-1.0.0.jar /opt/firedex/static/config/moquette.configuration"
+  CMD="/opt/firedex/static/mqtt-broker-1.0.0-jar-with-dependencies.jar edu.uci.ics.application.Application /opt/firedex/static/config/moquette.configuration"
   ;;
 "gateway")
-  CMD="/opt/firedex/static/mqtt-sn-broker-1.0.0.jar /opt/firedex/static/config/gateway.properties"
+  CMD="/opt/firedex/static/mqtt-sn-broker-1.0.0-jar-with-dependencies.jar org.eclipse.paho.mqttsn.gateway.Gateway /opt/firedex/static/config/gateway.properties"
   ;;
 *)
   echo "No role specified.. Exiting.."
@@ -35,7 +35,7 @@ case $ROLE in
   ;;
 esac
 
-java ${JVM_OPTS} -jar ${CMD}
+java ${JVM_OPTS} -cp ${CMD}
 
 child=$!
 wait "$child"
