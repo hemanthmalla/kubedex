@@ -1,6 +1,8 @@
 package edu.uci.ics.application;
 
 import java.io.PrintWriter;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 
 import edu.uci.ics.configuration.Configuration;
 import edu.uci.ics.exception.FiredexException;
@@ -41,8 +43,10 @@ public class Application {
 			publisher.disconnect();
 			
 			System.out.println("PUBLISHER: disconnected.");
-			
-			String outputFile = configuration.getOutput().getOutputFile();
+
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
+			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+			String outputFile = configuration.getOutput().getOutputFile() + sdf.format(timestamp);
 			PrintWriter output = new PrintWriter(outputFile);
 			
 			PublisherResult publisherResult = publisherProcess.publisherResult();

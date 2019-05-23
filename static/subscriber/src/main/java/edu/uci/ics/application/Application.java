@@ -1,6 +1,8 @@
 package edu.uci.ics.application;
 
 import java.io.PrintWriter;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -57,8 +59,10 @@ public class Application {
 			
 			System.out.println("SUBSCRIBER: end subscriptions.");
 			System.out.println("SUBSCRIBER: disconnected.");
-			
-			String outputFile = configuration.getOutput().getOutputFile();
+
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
+			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+			String outputFile = configuration.getOutput().getOutputFile() + sdf.format(timestamp);
 			PrintWriter output = new PrintWriter(outputFile);
 			
 			SubscriberResult subscriberResult = subscriber.subscriberResult();

@@ -6,6 +6,7 @@
 * Minikube 
 * Maven
 * Virtualbox (Needed for Minikube)
+* Java 8
 
 ## Setup
 
