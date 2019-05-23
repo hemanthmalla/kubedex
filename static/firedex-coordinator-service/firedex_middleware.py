@@ -127,6 +127,7 @@ def apply_experiment_configuration():
     # Push system configuration to the SDN controller.
     url = "http://127.0.0.1:8080/api/flow/push-configuration/"
     data = json.dumps(__network_flows)
+    print(data)
     requests.post(url, data = data)
     # ---
 
@@ -164,15 +165,15 @@ def subscriber_network_flows():
         "firedexSubscriptions": []
     }
 
-    network_flows_by_identifier = __network_flows_by_identifier(identifier)
+    # network_flows_by_identifier = __network_flows_by_identifier(identifier)
     firedex_subscriptions = []
 
     for subscription in subscriptions:
         topic = subscription["topic"]
-        network_flow_by_topic = __network_flow_by_topic(network_flows_by_identifier, topic)
+        # network_flow_by_topic = __network_flow_by_topic(network_flows_by_identifier, topic)
         firedex_subscriptions.append({
             "topic": topic,
-            "port": network_flow_by_topic["network_flow"]["port"]
+            "port": 9999
         })
 
     result["firedexSubscriptions"] = firedex_subscriptions
