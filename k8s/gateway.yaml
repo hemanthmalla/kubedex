@@ -20,7 +20,7 @@ spec:
         - name: ROLE
           value: gateway
         volumeMounts:
-        - mountPath: /var/logs/gateway
+        - mountPath: /var/log/gateway
           name: logs
         ports:
         - containerPort: 20000

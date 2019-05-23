@@ -1,6 +1,8 @@
 FROM python:2.7-jessie
 
-COPY ./firedex-coordinator-service /opt/firedex/middleware
+RUN mkdir /opt/firedex
+
+COPY ./ /opt/firedex/middleware
 
 WORKDIR /opt/firedex/middleware
 

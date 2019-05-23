@@ -49,8 +49,8 @@ Additionally we can verify that the images are built into the VM. We also need t
 ```
 minikube ssh
 docker images
-mkdir -p /home/docker/data/publisher
-mkdir -p /home/docker/data/subscriber
+mkdir -p /home/docker/data/publisher/log && mkdir /home/docker/data/publisher/output
+mkdir -p /home/docker/data/subscriber/log && mkdir /home/docker/data/subscriber/output
 mkdir -p /home/docker/data/gateway
 exit
 ```

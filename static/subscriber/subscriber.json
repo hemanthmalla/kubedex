@@ -1,6 +1,6 @@
 {
     "subscriber": {
-        "runningTime": 10,
+        "runningTime": 60,
         "host": "127.0.0.1",
         "identifier": "sub0", 
         "subscriptions": [

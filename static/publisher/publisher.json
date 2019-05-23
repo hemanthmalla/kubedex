@@ -1,6 +1,6 @@
 {
     "publisher": {
-        "runningTime": 10,
+        "runningTime": 60,
         "host": "127.0.0.1",
         "identifier": "pub0", 
         "publications": [

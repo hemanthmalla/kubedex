@@ -57,6 +57,7 @@ public class Application {
 
 			System.exit(0);
 		} catch (Exception exception) {
+			exception.printStackTrace();
 			System.out.println("Something bad happened.");
 		}
 	}

@@ -20,7 +20,7 @@ spec:
         - name: ROLE
           value: subscriber
         volumeMounts:
-        - mountPath: /var/logs/subscriber
+        - mountPath: /var/log/subscriber
           name: logs
         ports:
         - containerPort: 9999

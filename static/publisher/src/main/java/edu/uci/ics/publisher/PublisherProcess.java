@@ -66,6 +66,7 @@ public class PublisherProcess {
 			
 			scheduleEvent(topic, rate, messageSize, qualityOfService, retained);
 		} catch (FiredexException exception) {
+			exception.printStackTrace();
 			LoggerUtility.log("Something bad happened.");
 		}
 	}
