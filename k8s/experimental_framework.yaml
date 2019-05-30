@@ -11,14 +11,24 @@ spec:
         version: v1
         type: http-client
     spec:
+      initContainers:
+      - name: init-subscriber
+        image: busybox:1.28
+        command: ['sh', '-c', 'echo "waiting for middleware"; sleep 5; echo "started middleware"']
       containers:
       - name: firedex
         image: firedex/experimental-framework:latest
         # TODO : Only for local testing
         imagePullPolicy: Never
         volumeMounts:
+        - mountPath: /var/log/subscriber
+          name: sublogs
         - mountPath: /var/configuration
           name: configurations
+        - mountPath: /var/results
+          name: results  
+        - mountPath: /var/log/publisher
+          name: publogs  
       restartPolicy: Never
       volumes:
       - name: configurations
@@ -26,3 +36,18 @@ spec:
           # directory location on host
           path: /home/docker/data/experimental_configuration
           type: Directory
+      - name: results
+        hostPath:
+          # directory location on host
+          path: /home/docker/data/results
+          type: Directory
+      - name: sublogs
+        hostPath:
+          # directory location on host
+          path: /home/docker/data/subscriber
+          type: Directory
+      - name: publogs
+        hostPath:
+          # directory location on host
+          path: /home/docker/data/publisher
+          type: Directory              

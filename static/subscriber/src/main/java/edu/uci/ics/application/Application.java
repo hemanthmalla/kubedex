@@ -77,9 +77,7 @@ public class Application {
 			System.out.println("SUBSCRIBER: end subscriptions.");
 			System.out.println("SUBSCRIBER: disconnected.");
 
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
-			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-			String outputFile = configuration.getOutput().getOutputFile() + sdf.format(timestamp);
+			String outputFile = configuration.getOutput().getOutputFile();
 			PrintWriter output = new PrintWriter(outputFile);
 			
 			SubscriberResult subscriberResult = subscriber.subscriberResult();

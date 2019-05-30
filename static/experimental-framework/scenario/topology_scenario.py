@@ -14,7 +14,7 @@ TOPIC = {
     "random": 7
 }
 
-SUBSCRIBERS = 10
+SUBSCRIBERS = 3
 SUBSCRIBER = {
     "scenario": [
         {

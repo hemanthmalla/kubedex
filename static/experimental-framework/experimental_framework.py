@@ -137,6 +137,89 @@ def start_subscriber():
         configuration_file.close()
 
 
+def wait():
+    experiment_duration = configuration.firedex_configuration.experiment_duration()
+    print("Experiment started.")
+
+    to = experiment_duration + 200 
+    for i in range(1, to + 1):
+        time.sleep(1)
+        print(str(i) + " ---> " + str(to))
+
+    print("Experiment completed.")
+
+
+def __subscription_network_flow(identifier, topic):
+    network_flows = open("/var/configuration/network_flows/network_flows.json", "r").read()
+    network_flows = json.loads(network_flows)
+
+    for network_flow in network_flows:
+        subscriber_identifier = network_flow["identifier"]
+        if subscriber_identifier == identifier:
+            priority = network_flow["priority"]
+            drop_rate = network_flow["drop_rate"]
+            subscriber_subscriptions = network_flow["subscriptions"]
+            for subscriber_subscription in subscriber_subscriptions:
+                subscription_topic = subscriber_subscription["topic"]
+                if subscription_topic == topic:
+                    utility_function = subscriber_subscription["utility_function"]
+                    return utility_function, priority, drop_rate
+
+    return None
+
+def aggregate_result():
+    table_result = open("/var/results/aggregate_physical.csv", "w")
+
+    publishers = configuration.experiment_configuration.publishers()
+
+    publications_by_topic = {}
+
+    for publisher in publishers:
+        publisher_output_file_name = publisher["output"]["outputFile"]
+
+        publisher_result = open(publisher_output_file_name, 'r').read()
+        publisher_result = json.loads(publisher_result)
+        publications_result = publisher_result["publicationsResult"]
+
+        for publication_result in publications_result:
+            topic = publication_result["topic"]
+            sent = publication_result["messages"]
+
+            if topic not in publications_by_topic:
+                publications_by_topic[topic] = 0
+
+            publications_by_topic[topic] = publications_by_topic[topic] + sent
+
+    subscribers = configuration.experiment_configuration.subscribers()
+
+    for subscriber in subscribers:
+        identifier = subscriber["subscriber"]["identifier"]
+        subscriber_output_file_name = subscriber["output"]["outputFile"]
+
+        subscriber_result = open(subscriber_output_file_name, 'r').read()
+        subscriber_result = json.loads(subscriber_result)
+        subscriptions_result = subscriber_result["subscriptionsResult"]
+
+        for subscription_result in subscriptions_result:
+            topic = subscription_result["topic"]
+            port = subscription_result["port"]
+            if topic not in publications_by_topic:
+                sent = 0
+            else:
+                sent = publications_by_topic[topic]
+            received = subscription_result["messages"]
+            latency = subscription_result["latency"]
+
+            utility_function, priority, drop_rate = __subscription_network_flow(identifier, topic)
+
+            table_result.write( identifier + ", " + topic + ", " + str(port) + ", " + str(utility_function) +
+                                ", " + str(priority) + ", " + str(drop_rate) + ", " + str(sent) + ", " +
+                                str(received) + ", " + str(latency) + os.linesep)
+
+    table_result.close()
+    print("Result table created.")    
+
+
 if __name__ == "__main__":
     network_scenario()
     topology_scenario()
@@ -158,6 +241,8 @@ if __name__ == "__main__":
 
     start_publisher()
     start_subscriber()
+    wait()
+    aggregate_result()
 
  
     

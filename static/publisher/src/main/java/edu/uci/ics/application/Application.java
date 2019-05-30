@@ -44,9 +44,7 @@ public class Application {
 			
 			System.out.println("PUBLISHER: disconnected.");
 
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
-			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-			String outputFile = configuration.getOutput().getOutputFile() + sdf.format(timestamp);
+			String outputFile = configuration.getOutput().getOutputFile();
 			PrintWriter output = new PrintWriter(outputFile);
 			
 			PublisherResult publisherResult = publisherProcess.publisherResult();

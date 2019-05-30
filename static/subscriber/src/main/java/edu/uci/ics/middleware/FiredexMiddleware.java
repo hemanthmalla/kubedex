@@ -61,7 +61,7 @@ public class FiredexMiddleware {
 		} catch (UnirestException exception) {
 			throw ( new FiredexException() );
 		}
-	}
+	} 
 
 
 }
