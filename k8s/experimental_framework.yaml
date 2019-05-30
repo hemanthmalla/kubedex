@@ -1,0 +1,28 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: experimental-framework
+  namespace: firedex
+spec:
+  template:
+    metadata:
+      labels:
+        app: experimental-framework
+        version: v1
+        type: http-client
+    spec:
+      containers:
+      - name: firedex
+        image: firedex/experimental-framework:latest
+        # TODO : Only for local testing
+        imagePullPolicy: Never
+        volumeMounts:
+        - mountPath: /var/configuration
+          name: configurations
+      restartPolicy: Always
+      volumes:
+      - name: configurations
+        hostPath:
+          # directory location on host
+          path: /home/docker/data/experimental_configuration
+          type: Directory

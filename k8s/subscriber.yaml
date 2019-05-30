@@ -4,6 +4,7 @@ metadata:
   name: subscriber
   namespace: firedex
 spec:
+  replicas: 3
   template:
     metadata:
       labels:
@@ -11,6 +12,10 @@ spec:
         version: v1
         type: mqtt
     spec:
+      initContainers:
+      - name: init-subscriber
+        image: busybox:1.28
+        command: ['sh', '-c', 'echo "waiting for setup"; sleep 60; echo "starting subscribers"']
       containers:
       - name: firedex
         image: hemanthmalla/firedex:latest
@@ -22,8 +27,11 @@ spec:
         volumeMounts:
         - mountPath: /var/log/subscriber
           name: logs
+        - mountPath: /opt/firedex/subscriber_configurations
+          name: configurations  
         ports:
-        - containerPort: 9999
+        - containerPort: 10001 
+        - containerPort: 10002
       restartPolicy: Always
       volumes:
       - name: logs
@@ -31,6 +39,12 @@ spec:
           # directory location on host
           path: /home/docker/data/subscriber
           type: Directory
+      - name: configurations
+        hostPath:
+          # directory location on host
+          path: /home/docker/data/experimental_configuration/subscribers
+          type: Directory
+              
 ---
 apiVersion: v1
 kind: Service

@@ -1,0 +1,58 @@
+{
+    "subscriber": {
+        "runningTime": 400, 
+        "host": "10.0.0.3", 
+        "identifier": "sub1", 
+        "subscriptions": [
+            {
+                "topic": "topic0", 
+                "time": 0, 
+                "utilityFunction": 2.9461256106544775
+            }, 
+            {
+                "topic": "topic6", 
+                "time": 0, 
+                "utilityFunction": 10.763390754484307
+            }, 
+            {
+                "topic": "topic3", 
+                "time": 0, 
+                "utilityFunction": 2.595953422317179
+            }, 
+            {
+                "topic": "topic1", 
+                "time": 0, 
+                "utilityFunction": 3.0875678152309893
+            }, 
+            {
+                "topic": "topic5", 
+                "time": 0, 
+                "utilityFunction": 0.27341726758461715
+            }, 
+            {
+                "topic": "topic2", 
+                "time": 0, 
+                "utilityFunction": 6.3337901335951
+            }, 
+            {
+                "topic": "topic4", 
+                "time": 0, 
+                "utilityFunction": 16.0257378050974
+            }
+        ]
+    }, 
+    "output": {
+        "outputFile": "/var/log/subscriber/output/sub1_output.json", 
+        "logFile": "/var/log/subscriber/output/sub1_log.log"
+    }, 
+    "server": {
+        "middleware": {
+            "host": "middleware.firedex", 
+            "port": "8888"
+        }, 
+        "broker": {
+            "host": "gateway.firedex", 
+            "port": 20000
+        }
+    }
+}

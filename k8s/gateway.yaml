@@ -11,7 +11,27 @@ spec:
         version: v1
         type: mqtt
     spec:
-      containers:
+      initContainers:
+      - name: init-publisher
+        image: busybox:1.28
+        command: ['sh', '-c', 'echo "waiting for setup"; sleep 30; echo "starting gateway"']
+      - name: firedex-rules
+        image: firedex/setup_rules:latest
+        securityContext:
+          capabilities:
+            add: ["NET_ADMIN"]
+        imagePullPolicy: Never
+        volumeMounts:
+        - mountPath: /opt/firedex/network_flows
+          name: configurations
+      containers:  
+      - name: firedex-test
+        image: firedex/test:latest
+        securityContext:
+          capabilities:
+            add: ["NET_ADMIN"]
+        imagePullPolicy: Never  
+
       - name: firedex
         image: hemanthmalla/firedex:latest
         # TODO : Only for local testing
@@ -21,15 +41,20 @@ spec:
           value: gateway
         volumeMounts:
         - mountPath: /var/log/gateway
-          name: logs
+          name: logs 
         ports:
-        - containerPort: 20000
+        - containerPort: 20000 
       volumes:
       - name: logs
         hostPath:
           # directory location on host
           path: /home/docker/data/gateway
           type: Directory
+      - name: configurations
+        hostPath:
+          # directory location on host
+          path: /home/docker/data/experimental_configuration/network_flows
+          type: Directory    
       restartPolicy: Always
 ---
 apiVersion: v1

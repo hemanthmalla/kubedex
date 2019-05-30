@@ -4,6 +4,10 @@ metadata:
   name: publisher
   namespace: firedex
 spec:
+  initContainers:
+  - name: init-publisher
+    image: busybox:1.28
+    command: ['sh', '-c', 'echo "waiting for setup"; sleep 90; echo "starting publishers"']
   containers:
   - name: firedex
     image: hemanthmalla/firedex:latest
@@ -15,9 +19,16 @@ spec:
     volumeMounts:
     - mountPath: /var/log/publisher
       name: logs
+    - mountPath: /opt/firedex/publisher_configurations
+      name: configurations      
   volumes:
   - name: logs
     hostPath:
       # directory location on host
       path: /home/docker/data/publisher
       type: Directory
+  - name: configurations
+    hostPath:
+      # directory location on host
+        path: /home/docker/data/experimental_configuration/publishers
+        type: Directory

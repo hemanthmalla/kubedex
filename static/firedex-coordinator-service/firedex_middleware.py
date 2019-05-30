@@ -28,10 +28,27 @@ class Configuration:
 
 configuration = Configuration()
 
+global subCounter
+
+subCounter = 0
+
+# with open('network_flows.json', 'r') as network_flows:
+#         configuration.network_flows = json.load(network_flows)
+
+@application.route("/api/firedex/get-subscription-id/", methods = ["GET"])
+def get_subscription_id():
+    global subCounter
+    sub_id = 'sub' + `subCounter`
+    subCounter+=1;   
+
+    if subCounter == 10:
+        subCounter = 0 
+
+    return jsonify( {"subscription_id": sub_id} )
 
 @application.route("/api/firedex/push-network-configuration/", methods = ["POST"])
 def push_network_configuration():
-    json_request = request.json
+    json_request = request.data
 
     network_configuration = json.loads(json_request)
     configuration.network_configuration = network_configuration
@@ -40,7 +57,7 @@ def push_network_configuration():
 
 @application.route("/api/firedex/push-topology-configuration/", methods = ["POST"])
 def push_topology_configuration():
-    json_request = request.json
+    json_request = request.data
 
     topology_configuration = json.loads(json_request)
     configuration.topology_configuration = topology_configuration
@@ -49,7 +66,7 @@ def push_topology_configuration():
 
 @application.route("/api/firedex/push-firedex-configuration/", methods = ["POST"])
 def push_firedex_configuration():
-    json_request = request.json
+    json_request = request.data
 
     firedex_configuration = json.loads(json_request)
     configuration.firedex_configuration = firedex_configuration
@@ -58,7 +75,7 @@ def push_firedex_configuration():
 
 @application.route("/api/firedex/push-experiment-configuration/", methods = ["POST"])
 def push_experiment_configuration():
-    json_request = request.json
+    json_request = request.data
 
     experiment_configuration = json.loads(json_request)
     configuration.experiment_configuration = experiment_configuration
@@ -124,13 +141,6 @@ def apply_experiment_configuration():
 
     configuration.network_flows = __network_flows
 
-    # Push system configuration to the SDN controller.
-    url = "http://127.0.0.1:8080/api/flow/push-configuration/"
-    data = json.dumps(__network_flows)
-    print(data)
-    requests.post(url, data = data)
-    # ---
-
     return jsonify(__network_flows)
 
 def __network_flows_by_identifier(identifier):
@@ -155,25 +165,27 @@ def __network_flow_by_topic(network_flows, topic):
 
 @application.route("/api/firedex/subscriber-network-flows/", methods = ["POST"])
 def subscriber_network_flows():
+    global subCounter
     json_request = request.json
 
     identifier = json_request["identifier"]
+    print(identifier)
     subscriptions = json_request["subscriptions"]
-
+    
     result = {
         "identifier": identifier,
         "firedexSubscriptions": []
     }
 
-    # network_flows_by_identifier = __network_flows_by_identifier(identifier)
+    network_flows_by_identifier = __network_flows_by_identifier(identifier)
     firedex_subscriptions = []
 
     for subscription in subscriptions:
         topic = subscription["topic"]
-        # network_flow_by_topic = __network_flow_by_topic(network_flows_by_identifier, topic)
+        network_flow_by_topic = __network_flow_by_topic(network_flows_by_identifier, topic)
         firedex_subscriptions.append({
             "topic": topic,
-            "port": 9999
+            "port": network_flow_by_topic["network_flow"]["port"]
         })
 
     result["firedexSubscriptions"] = firedex_subscriptions

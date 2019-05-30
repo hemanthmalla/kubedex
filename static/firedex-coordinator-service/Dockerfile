@@ -8,6 +8,6 @@ WORKDIR /opt/firedex/middleware
 
 RUN pip install  --upgrade -r requirements.txt
 
-EXPOSE 8888
+EXPOSE 8888 
 
 CMD ["python", "firedex_middleware.py"]

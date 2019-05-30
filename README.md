@@ -39,10 +39,10 @@ Maven package broker, gateway, publisher and subscriber components. Build a dock
 bash build.sh
 ```
 
-Build docker image for the middleware.
+Build docker image for the middleware, experimental framework and tc-rule config.
 
 ```
-docker build -t <image_name> ./static/firedex-coordinator-service
+bash ./static/build_images.sh
 ```
 
 Additionally we can verify that the images are built into the VM. We also need to create log directory in minikube, which would be mounted into containers.
@@ -52,6 +52,9 @@ minikube ssh
 docker images
 mkdir -p /home/docker/data/publisher/log && mkdir /home/docker/data/publisher/output
 mkdir -p /home/docker/data/subscriber/log && mkdir /home/docker/data/subscriber/output
+mkdir -p /home/docker/data/experimental_configuration/network_flows 
+mkdir -p /home/docker/data/experimental_configuration/publishers
+mkdir -p /home/docker/data/experimental_configuration/subscribers
 mkdir -p /home/docker/data/gateway
 exit
 ```

@@ -30,7 +30,7 @@ public class Subscriber {
 	public Subscriber(Configuration configuration) throws FiredexException {
 		this.configuration = configuration;
 		
-		this.firedexMiddleware = new FiredexMiddleware(configuration);
+		this.firedexMiddleware = new FiredexMiddleware();
 		this.brokerConnections = new ArrayList<>();
 		
 		this.subscriptionsLatencies = new HashMap<>();

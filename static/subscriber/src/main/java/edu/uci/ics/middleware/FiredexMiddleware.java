@@ -12,17 +12,15 @@ import edu.uci.ics.model.SubscriptionResponse;
 import edu.uci.ics.utility.JsonUtility;
 
 public class FiredexMiddleware {
-	private Configuration configuration;
 	private String baseApi;
 
-	public FiredexMiddleware(Configuration configuration) {
-		this.configuration = configuration;
+	public FiredexMiddleware() {
 		this.baseApi = baseApi();
 	}
 
 	private String baseApi() {
-		String middlewareHost = configuration.getServer().getMiddleware().getHost();
-		int middlewarePort = configuration.getServer().getMiddleware().getPort();
+		String middlewareHost = "middleware.firedex";
+		int middlewarePort = 8888;
 		String baseApi = String.format("http://%s:%d/api/firedex", middlewareHost, middlewarePort);
 		return (baseApi);
 	}
@@ -47,5 +45,23 @@ public class FiredexMiddleware {
 			throw ( new FiredexException() );
 		}
 	}
+
+	public String getSubscriptionIdentifier() throws FiredexException {
+		try {
+
+			String url = baseApi + "/get-subscription-id/";
+
+			HttpResponse<JsonNode> response = Unirest
+					.get(url)
+					.asJson();
+
+			String subscription_id = response.getBody().getObject().getString("subscription_id");
+
+			return (subscription_id);
+		} catch (UnirestException exception) {
+			throw ( new FiredexException() );
+		}
+	}
+
 
 }

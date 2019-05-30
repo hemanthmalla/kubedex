@@ -6,10 +6,11 @@ mvn package -DskipTests -f static/mqtt-sn-broker/
 
 mvn package -DskipTests -f static/mqtt-broker/
 
-mvn package -DskipTests -f static/subscriber/
+#mvn package -DskipTests -f static/subscriber/
 
 rm -rf ./build
 mkdir -p ./build/static/config/
+mkdir ./build/static/subscriber_configurations/
 
 cp -r static/*/target/*dependencies*.jar ./build/static/
 

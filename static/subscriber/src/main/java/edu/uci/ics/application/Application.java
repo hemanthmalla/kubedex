@@ -1,7 +1,11 @@
 package edu.uci.ics.application;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Timestamp;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,18 +16,33 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import edu.uci.ics.configuration.Configuration;
 import edu.uci.ics.configuration.Subscription;
 import edu.uci.ics.exception.FiredexException;
+import edu.uci.ics.middleware.FiredexMiddleware;
 import edu.uci.ics.model.result.SubscriberResult;
 import edu.uci.ics.subscriber.Subscriber;
 import edu.uci.ics.utility.JsonUtility;
 import edu.uci.ics.utility.LoggerUtility;
 
+import org.json.simple.parser.JSONParser;
+
+
 public class Application {
 
 	public static void main(String[] args) {
 		try {
-			String configurationFile = args[0];
-			Configuration configuration = configuration(configurationFile);
-			
+
+			FiredexMiddleware firedexMiddleware = new FiredexMiddleware();
+			JSONParser jsonParser = new JSONParser();
+
+			String subscriptionIndentifier = firedexMiddleware.getSubscriptionIdentifier();
+
+			String filePath = "subscriber_configurations/" + subscriptionIndentifier + ".json";
+			FileReader reader = new FileReader(filePath);
+
+
+			Configuration configuration = JsonUtility.fromJson(jsonParser.parse(reader).toString(), Configuration.class);
+
+			System.out.println(configuration.getSubscriber().getIdentifier());
+
 			initializeApplication(configuration);
 			
 			Subscriber subscriber = new Subscriber(configuration);
@@ -82,11 +101,7 @@ public class Application {
 		}
 	}
 	
-	private static Configuration configuration(String configurationFile) throws FiredexException {
-		Configuration configuration = Configuration.initialize(configurationFile);
-		return (configuration);
-	}
-	
+
 	private static void initializeApplication(Configuration configuration) {
 		LoggerUtility.initialize(configuration);
 	}

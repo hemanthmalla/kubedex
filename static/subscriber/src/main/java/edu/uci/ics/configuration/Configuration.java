@@ -31,17 +31,5 @@ public class Configuration {
 	public Output getOutput() {
 		return (output);
 	}
-	
-	public static Configuration initialize(String file) throws FiredexException {
-		try {
-			List<String> lines = Files.readLines( new File(file), Charset.defaultCharset() );
-			StringBuilder json = new StringBuilder();
-			lines.forEach( (line) -> json.append(line + System.lineSeparator()) );
-			Configuration configuration = JsonUtility.fromJson(json.toString(), Configuration.class);
-			return (configuration);
-		} catch (Exception exception) {
-			throw ( new FiredexException() );
-		}
-	}
-	
+
 }
