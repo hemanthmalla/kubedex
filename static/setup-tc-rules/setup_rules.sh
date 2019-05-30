@@ -17,10 +17,10 @@ fi
 
 if [ $is_first_topic -eq 1 ]
 then
-    tc class add dev eth0 parent 1: classid 1:$subscriber_id htb rate 10000kbit ceil 10000kbit 
+    tc class add dev eth0 parent 1: classid 1:$subscriber_id htb rate 78kbit ceil 78kbit 
 fi    
 
-tc class add dev eth0 parent 1:$subscriber_id classid 1:$topic_id htb rate 10000kbit ceil 10000kbit prio $priority
+tc class add dev eth0 parent 1:$subscriber_id classid 1:$topic_id htb rate 78kbit ceil 78kbit prio $priority
 tc qdisc add dev eth0 parent 1:$topic_id handle $netem_id:0 netem loss $drop_rate%
 tc filter add dev eth0 protocol ip parent 1:0 prio 1 u32  match ip dport $port 0xffff flowid 1:$topic_id
 

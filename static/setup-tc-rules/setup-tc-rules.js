@@ -8,6 +8,8 @@ const rules = [];
 let is_first_subscriber = 1;  
 const netem_ids = [];
 
+execSync('bash delete_prev_results.sh', {stdio: 'inherit'});
+
 for(let i=3000; i<4000; i++) {
     netem_ids.push(i);
 }

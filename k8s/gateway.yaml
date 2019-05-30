@@ -12,7 +12,7 @@ spec:
         type: mqtt
     spec:
       initContainers:
-      - name: init-publisher
+      - name: init-gateway
         image: busybox:1.28
         command: ['sh', '-c', 'echo "waiting for setup"; sleep 30; echo "starting gateway"']
       - name: firedex-rules
@@ -24,6 +24,8 @@ spec:
         volumeMounts:
         - mountPath: /opt/firedex/network_flows
           name: configurations
+        - mountPath: /opt/firedex/results
+          name: results  
       containers:  
       - name: firedex-test
         image: firedex/test:latest
@@ -54,7 +56,12 @@ spec:
         hostPath:
           # directory location on host
           path: /home/docker/data/experimental_configuration/network_flows
-          type: Directory    
+          type: Directory
+      - name: results
+        hostPath:
+          # directory location on host
+          path: /home/docker/data/subscriber
+          type: Directory        
       restartPolicy: Always
 ---
 apiVersion: v1
