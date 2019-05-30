@@ -20,7 +20,8 @@ spec:
     - mountPath: /var/log/publisher
       name: logs
     - mountPath: /opt/firedex/publisher_configurations
-      name: configurations      
+      name: configurations
+  restartPolicy: OnFailure      
   volumes:
   - name: logs
     hostPath:

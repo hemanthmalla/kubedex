@@ -1,5 +1,5 @@
-apiVersion: apps/v1beta1
-kind: Deployment
+apiVersion: batch/v1
+kind: Job
 metadata:
   name: experimental-framework
   namespace: firedex
@@ -19,7 +19,7 @@ spec:
         volumeMounts:
         - mountPath: /var/configuration
           name: configurations
-      restartPolicy: Always
+      restartPolicy: Never
       volumes:
       - name: configurations
         hostPath:

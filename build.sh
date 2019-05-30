@@ -6,7 +6,7 @@ mvn package -DskipTests -f static/mqtt-sn-broker/
 
 mvn package -DskipTests -f static/mqtt-broker/
 
-#mvn package -DskipTests -f static/subscriber/
+mvn package -DskipTests -f static/subscriber/
 
 rm -rf ./build
 mkdir -p ./build/static/config/
@@ -22,6 +22,15 @@ cp static/mqtt-sn-broker/predefinedTopics.properties ./build/static/config/
 
 eval $(minikube docker-env)
 docker build -t hemanthmalla/firedex ./
+
+docker build -t firedex/experimental-framework ./static/experimental-framework
+
+docker build -t hemanthmalla/firedex-middleware ./static/firedex-coordinator-service
+
+docker build -t firedex/setup_rules ./static/setup-tc-rules
+
+docker build -t firedex/test ./static/test
+
 
 
 

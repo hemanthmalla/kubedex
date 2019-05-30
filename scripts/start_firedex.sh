@@ -37,6 +37,8 @@ esac
 
 java ${JVM_OPTS} -cp ${CMD}
 
+sleep infinity
+
 child=$!
 wait "$child"
 
